@@ -1,1 +1,46 @@
+// Question number 2.a
+class BankAccount{
+    private String name;
+    private String account_id;
+    private double balance;
+    BankAccount(String name, double balance, String gender){
+        this.name = name;
+        this.balance = balance;
+        this.account_id = gender + "-"+ name;
+    }
+    //get method:
+    public String getName(){
+        return name;
+    }
 
+    public String getAccount_id() {
+        return account_id;
+    }
+
+    public double getBalance(){
+        return balance;
+    }
+    //setter method
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setAccount_id(String account_id){
+        this.account_id = account_id;
+    }
+    public void setBalance(double balance){
+        if(balance > 0 ){
+            this.balance = balance;
+        }
+        else{
+            System.out.println("Balance can not be negative");
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        BankAccount ba1 = new BankAccount("Mr. Rahman", 1000, "M");
+
+        System.out.println("Balance of " + ba1.getName() + ", Id: "+ ba1.getAccount_id()+ ", and Balance: "+ ba1.getBalance());
+
+    }
+}
