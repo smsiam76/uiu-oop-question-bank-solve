@@ -1,0 +1,148 @@
+Q-1-b)
+-------------
+import java.sql.SQLOutput;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Exception_Spring24 {
+    public static void main(String[] args) {
+        System.out.println("Enter Array Size: ");
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] myArray = new int[n];
+
+        try{
+            System.out.println("Enter Index Position: ");
+            int index = input.nextInt();
+            System.out.println("Enter the value: ");
+            int val = input.nextInt();
+            myArray[index] =val;
+        }
+        catch (IndexOutOfBoundsException e){
+            System.out.println("Array IndexOutOfBoundsException Occur!");
+        }
+        catch (InputMismatchException e){
+            System.out.println("InputMismatchException occured!");
+        }
+        catch (Exception e){
+            System.out.println("some other exception occured!");
+        }
+        finally {
+            System.out.println("exception handeling is amazing!");
+        }
+    }
+}
+
+
+
+Q-2-a (Thread)
+------------
+class MovieTheater {
+    int availableSeats;
+
+    MovieTheater(int s) {
+        availableSeats = s;
+    }
+
+    public synchronized int bookTickets(int numOFseats) {
+        int numOfTicketsBooked = 0;
+        for (int i = 1; i <= numOFseats; i++) {
+            if (availableSeats > 0) {
+                availableSeats--;
+                numOfTicketsBooked++;
+            }
+        }
+        return numOfTicketsBooked;
+    }
+}
+
+class User extends Thread{
+    MovieTheater m;
+    int numOfTickets;
+    User(MovieTheater m, int numOfTickets, String name){
+        super(name);
+        this.m = m;
+        this.numOfTickets = numOfTickets;
+
+    }
+    public void run(){
+        int booked = m.bookTickets(numOfTickets);
+        System.out.println(getName()+" has booked" + booked+ " Tickets");
+    }
+
+}
+public class Thread_Spring24 {
+    public static void main(String[] args) throws InterruptedException{
+    MovieTheater Movie = new MovieTheater(15);
+    User user1 = new User(Movie, 6, "Meena");
+    User user2 = new User(Movie, 5, "Nabil");
+    User user3 = new User(Movie, 4, "Farhan");
+
+    user1.start();
+    user1.join();
+    user2.start();
+    user2.join();
+    user3.start();
+    user3.join();
+
+    System.out.println("Available tickets: " + Movie.availableSeats);
+    }
+}
+
+
+Q-2.b (ArrayList Sort)
+--------
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+class Appliance {
+    String name,category;
+    double powerConsumption;//watt
+     Appliance(String n,String c,double d){
+         name=n;
+         category=c;
+         powerConsumption=d;
+     }
+     public String toString(){
+         return name+" "+category+" "+powerConsumption;
+     }
+}
+
+public class ArrayList_Sort_Spring24 {
+
+    public static void main(String[] args) {
+        //task 1
+        ArrayList <Appliance> list = new ArrayList<>();
+
+//        task 2
+
+        list.add(new Appliance("Television","Entertainment",150));
+        list.add(new Appliance("Washing machine","Laundry",2000));
+        list.add(new Appliance("Refrigerator","Kitchen",100));
+
+        //task3
+        for(Appliance ap:list){
+            if(ap.category.equals("Kitchen")){
+                System.out.println(ap);
+            }
+        }
+
+        //task 4
+        Collections.sort(list, new Comparator<Appliance>(){
+            public int compare(Appliance a1, Appliance a2){
+                return Double.compare(a2.powerConsumption, a1.powerConsumption);
+            }
+        });
+
+        for(Appliance ap: list){
+            System.out.println(ap);
+        }
+        //task 5
+        if (!list.isEmpty()) {
+            System.out.println("Appliance with highest power consumption: " + list.get(0));
+            System.out.println("Appliance with lowest power consumption: " + list.get(list.size() - 1));
+        }
+
+    }
+}

@@ -1,0 +1,229 @@
+Q:1.a--
+--------------
+Result = 10
+Inner finally block executed.
+Outer finally block executed.
+
+Inner catch: ArithmeticException
+Inner finally block executed.
+Outer finally block executed.
+
+Outer catch: NumberFormatException
+Outer finally block executed.
+
+
+
+---------
+ --Q:1.b--
+---------
+class InsufficientFundsException extends Exception{
+    InsufficientFundsException(String msg){
+        super(msg);
+    }
+}
+class Bank{
+    private int balance;
+    Bank(int balance){
+       this.balance = balance;
+    }
+    void withdraw(int amount) throws InsufficientFundsException{
+        if(balance < amount){
+            throw new InsufficientFundsException("Withdrawal amount exceeds current balance.");
+        }
+        else {
+            balance -= amount;
+            System.out.println("Withdrawal successful! Remaining balance: " + balance);
+        }
+
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Bank myBank = new Bank(7000);
+    try{
+        myBank.withdraw(9000);
+    }
+    catch (InsufficientFundsException e){
+        System.out.println("Exception:"+ e.getMessage());
+        
+    }
+    finally {
+        System.out.println("Transaction processing completed");
+    }
+    }
+
+}
+
+
+
+
+---------
+ --Q:2 ---
+---------
+
+import java.io.*;
+
+public class FileWriteRead {
+
+    public static void main(String[] args){
+       try{
+           //step 1
+           FileReader st_file_reader = new FileReader("student.txt");
+           BufferedReader st_reader = new BufferedReader(st_file_reader);
+           FileWriter info_file = new FileWriter("info.txt");
+           BufferedWriter info_file_writer = new BufferedWriter(info_file);
+           FileWriter mark_file = new FileWriter("mark.txt");
+           BufferedWriter mark_file_writer = new BufferedWriter(mark_file);
+
+           //step 2;
+           String line;
+           int i = 0;
+           while ((line = st_reader.readLine()) != null){
+                //step 3 spild and set to variable
+               String[] parts = line.split(" ");
+               int id = Integer.parseInt(parts[0]);
+               String name = parts[1];
+               int mark1 = Integer.parseInt(parts[2]);
+               int mark2 = Integer.parseInt(parts[3]);
+               int total = mark1 + mark2;
+
+               //step 4
+                //write into file
+               info_file_writer.write(id+ " "+ name);
+               info_file_writer.newLine();
+
+               mark_file_writer.write(name+ " "+ total);
+               mark_file_writer.newLine();
+           }
+
+           //step 5
+           st_reader.close();
+           info_file_writer.close();
+           mark_file_writer.close();
+       }
+       catch (IOException e){
+           e.printStackTrace();
+       }
+
+    }
+}
+
+
+
+Q-3
+-----
+// Interface Computable
+interface Computable {
+    int compute(int a, int b);
+}
+
+// AdvancedComputable interface extending Computable
+interface AdvancedComputable extends Computable {
+    int max(int a, int b); // Method to find the maximum of two integers
+}
+
+// Abstract class Processor
+abstract class Processor {
+    protected String id;
+
+    public Processor(String id) {
+        this.id = id;
+    }
+
+    public abstract void process(); // Abstract method to process the task
+
+    public void printId() {
+        System.out.println("Processor ID: " + id); // Print the Processor ID
+    }
+}
+
+// Adder class implements AdvancedComputable and extends Processor
+class Adder extends Processor implements AdvancedComputable {
+
+    public Adder(String id) {
+        super(id); // Call the constructor of the Processor class
+    }
+
+    // Implement compute method to find the sum of two integers
+    public int compute(int a, int b) {
+        return a + b; // Return the sum of a and b
+    }
+
+    // Implement max method to find the maximum of two integers
+    public int max(int a, int b) {
+        return (a > b) ? a : b; // Return the larger of a and b
+    }
+
+    // Implement process method to print "Processing Addition"
+    public void process() {
+        System.out.println("Processing Addition"); // Print the processing message
+    }
+}
+
+// Main class to test the implementation
+public class Main {
+    public static void main(String[] args) {
+        // Create an Adder object
+        Adder adder = new Adder("001");
+
+        // Print the processor ID
+        adder.printId();
+
+        // Process the addition
+        adder.process();
+
+        // Compute the sum of two integers
+        int sum = adder.compute(5, 3);
+        System.out.println("Sum: " + sum); // Output the sum
+
+        // Find the maximum of two integers
+        int maxVal = adder.max(5, 3);
+        System.out.println("Maximum: " + maxVal); // Output the maximum value
+    }
+}
+
+
+
+Q-4
+-----
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+class Product {
+    String name; int amount; double unit_price;
+    public Product(String name, int amount, double unit_price) {
+        this.name = name;
+        this.amount = amount;
+        this.unit_price = unit_price; }
+}
+
+public class ArrayList_Spring25 {
+    public static void main(String[] args) {
+        ArrayList <Product> list = new ArrayList<>();
+        list.add(new Product("Mango",5, 20));
+        list.add(new Product("Apple", 4, 24));
+        list.add(new Product("Litchi", 20, 3));
+
+        list.add(1, new Product("Banana", 10, 12));
+        for(Product p: list){
+            if(p.name.equals("Apple")){
+                p.unit_price = 30;
+            }
+            System.out.println(p.unit_price);
+        }
+        Collections.sort(list, new  Comparator <Product>(){
+            public int compare(Product p1, Product p2){
+               // easy
+               // return Double.compare((p1.amount*p1.unit_price), (p2.amount*p2.unit_price));
+
+                //string
+                return p1.name.compareToIgnoreCase(p2.name);
+            }
+        });
+       for(Product p:list){
+           System.out.println(p.name+" "+ p.unit_price);
+       }
+    }
+
+}

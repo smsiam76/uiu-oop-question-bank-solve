@@ -1,0 +1,161 @@
+Q-2.a)
+------------
+import java.util.*;
+
+class Student {
+    int id;
+    String name;
+    double gpa;
+
+    public Student(int id, String name, double gpa) {
+        this.id = id;
+        this.name = name;
+        this.gpa = gpa;
+    }
+
+    public String toString() {
+        return id + " - " + name + " - " + gpa;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        // 1. Create ArrayList to store Student objects
+        ArrayList<Student> students = new ArrayList<>();
+
+        // 2. Insert given entries
+        students.add(new Student(101, "Hasibul Islam", 3.75));
+        students.add(new Student(102, "Mitu Rahman", 3.90));
+        students.add(new Student(103, "Fahim Khan", 3.40));
+        students.add(new Student(104, "Nusrat Jahan", 3.85));
+        students.add(new Student(105, "Aminul Haque", 3.55));
+        students.add(new Student(106, "Sumaiya Chowdhury", 3.78));
+
+        System.out.println("Before swapping:");
+        for (Student s : students) {
+            System.out.println(s);
+        }
+
+        // 3. Swap first two student objects without creating new objects
+        Collections.swap(students, 0, 1);
+
+        System.out.println("\nAfter swapping:");
+        for (Student s : students) {
+            System.out.println(s);
+        }
+    }
+}
+
+Q-3-a)
+import java.io.*;
+
+public class AverageFromFile {
+    public static void main(String[] args) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("myInputText"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("myOutputText"));
+
+            String line;
+            double sum = 0;
+            int count = 0;
+
+            while ((line = br.readLine()) != null) {
+                sum += Double.parseDouble(line);
+                count++;
+
+		//or try to used the .trim() for remove extra space and .isEmpty() for skip blank line
+            }
+
+            double avg = sum / count;
+            bw.write("Average = " + avg);
+
+            br.close();
+            bw.close();
+
+            System.out.println("Average written to myOutputText file.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
+}
+
+
+Q-3-b) Exception
+-----------------
+Output:
+a
+a
+b
+b
+b
+
+Q-4
+--------
+
+class oddNumber extends Thread{
+    private int sum = 0;
+    public void run(){
+        for(int i = 1; i<= 50; i+=2){
+            sum += i;
+        }
+    }
+    int getSum(){
+        return sum;
+    }
+}
+class evenNumber extends Thread{
+    private int sum = 0;
+    public void run(){
+
+        for(int i = 2; i<= 50; i+=2){
+            sum += i;
+        }
+    }
+    int getSum(){
+        return sum;
+    }
+}
+
+public class Thread_Summer24 {
+    public static void main(String[] args) {
+        oddNumber oddN = new oddNumber();
+        evenNumber evenN = new evenNumber();
+
+        oddN.start();
+        evenN.start();
+        try{
+            oddN.join();
+            evenN.join();
+        }
+        catch(InterruptedException e){
+            e.printStackTrace();
+        }
+
+        int result = oddN.getSum() - evenN.getSum();
+
+        System.out.println("Sum of odd numbers: " + oddN.getSum());
+        System.out.println("Sum of even numbers: " + evenN.getSum());
+        System.out.println("Final result (1 - 2 + 3 - 4 + ... - 50): " + result);
+
+    }
+
+}
+
+
+Q-5) GUI
+--------------
+//just the answer:
+public void actionPerformed(ActionEvent e) {
+        Random rand = new Random();
+        int a = rand.nextInt(3); // 0, 1, or 2
+        Color newColor = Color.green; // default
+
+        if (a == 0)
+            newColor = Color.green;
+        else if (a == 1)
+            newColor = Color.red;
+        else if (a == 2)
+            newColor = Color.yellow;
+
+        f.getContentPane().setBackground(newColor);
+    }

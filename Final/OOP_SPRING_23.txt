@@ -1,0 +1,142 @@
+Q-1.a)
+-----
+Abstraction is the process of hiding the implementation details and showing only the essential features of an object.
+Example:
+abstract class Shape {
+    abstract void draw(); // abstract method (no implementation)
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+
+Q-1.b)
+------
+// Interface A
+interface A {
+    public int p();
+    public int q();
+}
+
+// Interface B
+interface B {
+    public int x();
+    public int y();
+}
+
+// Abstract class C inheriting A and B
+abstract class C implements A, B {
+    public abstract int z();
+}
+
+// Concrete class D inheriting from C
+class D extends C {
+    public int p() {
+        System.out.println("p method");
+        return 1;
+    }
+    public int q() {
+        System.out.println("q method");
+        return 2;
+    }
+    public int x() {
+        System.out.println("x method");
+        return 3;
+    }
+    public int y() {
+        System.out.println("y method");
+        return 4;
+    }
+    public int z() {
+        System.out.println("z method");
+        return 5;
+    }
+}
+
+// Main class
+public class Test {
+    public static void main(String[] args) {
+        D obj = new D();
+        obj.p();
+        obj.q();
+        obj.x();
+        obj.y();
+        obj.z();
+    }
+}
+
+Q-2.a)
+------
+class Math{
+    public int divide(int x, int y){
+        return x/y;
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Math m = new Math();
+        int x = 4;
+        int y = 0;
+
+        try{
+            System.out.println(m.divide(x,y));
+        }
+        catch (ArithmeticException e){
+            System.out.println("Exception:" + e.getMessage());
+        }
+        finally {
+            System.out.println("Complete");
+        }
+    }
+
+}
+
+Q-2.b)
+// Custom Exception
+class DivbyZero extends ArithmeticException {
+    DivbyZero(String msg) {
+        super(msg);
+    }
+}
+
+class Math {
+    public int divide(int a, int b) throws DivbyZero {
+        if (b == 0) {
+            throw new DivbyZero("The denominator can not be zero!");
+        }
+        return a / b;
+    }
+}
+
+public class test {
+    public static void main(String[] args) {
+        Math m = new Math();
+        int n = 4, d = 0;
+
+        try {
+            System.out.println(m.divide(n, d));
+        } catch (DivbyZero e) {
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Complete");
+        }
+    }
+}
+Q-2.c)
+-----
+The call stack is a special memory structure used to keep track of method calls in a program.
+
+When a method is called, it is pushed onto the stack.
+
+When the method finishes, it is popped from the stack.
+
+The method on the top of the stack is always the one currently executing.
+
+Execution goes back to the previous method after the top method finishes.
+
+✅ Example (Flow):
+main() → first() → second() → third()
+
+third() runs first (on top), then finishes → control goes back to second(), then first(), then finally main().

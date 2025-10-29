@@ -1,0 +1,219 @@
+Q1
+---
+// Interface A with methods a() and b()
+interface A {
+    int a(); // Method to calculate u + v
+    int b(); // Method to calculate u * v
+}
+
+// Interface B extends A and adds methods x() and y()
+interface B extends A {
+    int x(); // Method to calculate the remainder u % v
+    int y(); // Method to calculate u^v (u raised to the power of v)
+}
+
+// Abstract class C implements interface B and declares an abstract method p()
+abstract class C implements B {
+    public abstract void p(); // Method to execute and display the results
+}
+
+// Class D extends C and implements all methods
+public class D extends C {
+    // Fields for u and v
+    private int u = 4;
+    private int v = 10;
+
+    // Method a() calculates u + v
+    public int a() {
+        return u + v;
+    }
+
+    // Method b() calculates u * v
+    public int b() {
+        return u * v;
+    }
+
+    // Method x() calculates the remainder of u divided by v
+    public int x() {
+        return u % v;
+    }
+
+    // Method y() calculates u raised to the power of v (u^v)
+    public int y() {
+        return (int) Math.pow(u, v);
+    }
+
+    // Method p() executes all the above methods and displays the results
+    public void p() {
+        System.out.println("u + v = " + a());  // Display the result of a()
+        System.out.println("u * v = " + b());  // Display the result of b()
+        System.out.println("u % v = " + x());  // Display the result of x()
+        System.out.println("u^v = " + y());   // Display the result of y()
+    }
+
+    // Main method to display all results using u = 4 and v = 10
+    public static void main(String[] args) {
+        D d = new D(); // Create an instance of class D
+        d.p(); // Call method p() to display the results
+    }
+}
+
+Q-2:
+-----
+// Custom exception class
+public class InvalidAgeException extends Exception {
+    // Constructor that accepts a message and invokes the parent constructor
+    public InvalidAgeException(String message) {
+        super(message); // Calling the parent class constructor
+    }
+}
+
+// Main class
+public class UIU {
+    public static void validate(int age) throws InvalidAgeException {
+        if (age < 18) {
+            // Throwing the custom exception with a message
+            throw new InvalidAgeException("Age must be 18 or above");
+        }
+        System.out.println("Valid age: " + age);
+    }
+
+    public static void main(String[] args) {
+        try {
+            validate(12);  // This will trigger the exception
+        } catch (InvalidAgeException e) {
+            // Catching the custom exception and printing the message
+            System.out.println("Caught Exception: " + e.getMessage());
+        }
+    }
+}
+
+Q-3
+--------
+import java.io.*;
+
+public class Fall_243 {
+
+    public static void main(String[] args){
+       try{
+           FileReader input_file = new FileReader("input.txt");
+           BufferedReader input_file_reader = new BufferedReader(input_file);
+           FileWriter output_file = new FileWriter("output.txt");
+           BufferedWriter output_file_writer = new BufferedWriter(output_file);
+            int ch;
+           while((ch = input_file_reader.read()) != -1){
+               if(Character.isDigit(ch)){
+                    output_file_writer.write(ch);
+               }
+           }
+           input_file_reader.close();
+           output_file_writer.close();
+       }
+       catch (IOException e){
+           e.printStackTrace();
+       }
+    }
+}
+
+Q-5.a----
+-----------
+class PositiveTerms extends Thread{
+    double sum = 0;
+    double x;
+
+    PositiveTerms(double x){
+        this.x = x;
+    }
+
+    public void run(){
+        for(int i = 2; i<= 50; i+=2){
+            sum += Math.pow(x,i) / (i + 1);
+        }
+    }
+}
+class NegativeTerms extends Thread{
+    double sum = 0;
+    double x;
+
+    NegativeTerms(double x){
+        this.x = x;
+    }
+    public void run(){
+        for(int i = 1; i < 50; i+=2){
+            sum -= Math.pow(x,i)/ (i+1);
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        double x = 1.15;
+        PositiveTerms posThread = new PositiveTerms(x);
+        NegativeTerms negTherad = new NegativeTerms(x);
+        posThread.start();
+        negTherad.start();
+        try{
+            posThread.join();
+            negTherad.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        double result = 1 + posThread.sum + negTherad.sum;
+        System.out.println("Final Result : "+ result);
+    }
+}
+
+
+5.b
+--------
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+class Cow implements Comparable<Cow> {
+    String name; int price;
+    public Cow(String name, int price) {
+        this.name = name; this.price = price;
+    }
+    public String toString() {
+        return name + " costs " + price + " taka.";
+    }
+    public int compareTo(Cow other) {
+        // answer to question (i) here
+            if(this.price > other.price) return 100;
+            else if(this.price < other.price) return -100;
+            else return 0;
+         }
+    }
+    class SortByName implements Comparator <Cow>{
+        public int compare(Cow c1, Cow c2){
+            return c1.name.compareTo(c2.name);
+        }
+    }
+
+public class ArrayList_Fall24 {
+    public static void main(String[] args) {
+        ArrayList<Cow> cows = new ArrayList<>();
+        cows.add(new Cow("Raja Babu", 2700000));
+        cows.add(new Cow("Hero Alom", 1500000));
+        cows.add(new Cow("Sultan", 1800000));
+        cows.add(new Cow("Minister", 1200000));
+        cows.add(new Cow("Shahid", 2200000));
+        System.out.println("Before Sorting:");
+        for (Cow c : cows) {
+            System.out.println(c);
+        }
+        Collections.sort(cows);
+        System.out.println("\nAfter Sorting by Price:");
+        for (Cow c : cows) {
+            System.out.println(c);
+        }
+        Collections.sort(cows, new SortByName());
+         System.out.println("\nAfter Sorting by Name:");
+        for (Cow c : cows) {
+            System.out.println(c);
+        }
+    }
+
+}
+
+
